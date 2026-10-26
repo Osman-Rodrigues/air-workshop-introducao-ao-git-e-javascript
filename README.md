@@ -1,6 +1,6 @@
 # air-workshop-introducao-ao-git-e-javascript
 
-Workshop prático de introdução ao Git, usando pequenos snippets em JavaScript como material para versionar. Você vai do `git init` até um Pull Request aprovado, com uma Actions acompanhando o seu progresso.
+Workshop prático de introdução ao Git, usando pequenos exemplos em JavaScript como material para versionar. Você vai do `git init` até um Pull Request aprovado, com uma Actions acompanhando o seu progresso.
 
 ## Pré-requisitos
 
@@ -24,8 +24,7 @@ Workshop prático de introdução ao Git, usando pequenos snippets em JavaScript
 | [docs/exercicios.md](docs/exercicios.md) | Exercícios E1 a E6 e bônus |
 | [docs/roteiro-instrutor.md](docs/roteiro-instrutor.md) | Roteiro do instrutor |
 | [slides/slides.md](slides/slides.md) | Slides (Marp) |
-| `exercicios/` | Uma pasta por exercício, com o esqueleto (`exe-*`) e a solução (`sol-*`) para copiar |
-| `snippets/` | Criada por você no E2; recebe os arquivos JavaScript dos exercícios |
+| `exercicios/` | Uma pasta por exercício, com o esqueleto (`exe-*`) e a solução (`sol-*`); é nela que você cria e versiona os arquivos |
 | `tests/` | Testes usados por `npm test` e pela Actions |
 | `.github/` | Automação de progresso |
 

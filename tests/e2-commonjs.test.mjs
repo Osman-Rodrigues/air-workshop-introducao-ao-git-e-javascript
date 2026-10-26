@@ -6,14 +6,14 @@ import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
 const caminho = (nome) =>
-  fileURLToPath(new URL(`../snippets/${nome}`, import.meta.url));
+  fileURLToPath(new URL(`../exercicios/e2/${nome}`, import.meta.url));
 
 const SAUDACAO = caminho("01-saudacao.js");
 const LOCALIZACAO = caminho("02-minha-localizacao.js");
 
 test(
   "E2: saudar()",
-  { skip: !existsSync(SAUDACAO) && "snippets/01-saudacao.js ainda não existe" },
+  { skip: !existsSync(SAUDACAO) && "exercicios/e2/01-saudacao.js ainda não existe" },
   () => {
     const { saudar } = require(SAUDACAO);
     assert.equal(
@@ -31,7 +31,7 @@ test(
   {
     skip:
       !existsSync(LOCALIZACAO) &&
-      "snippets/02-minha-localizacao.js ainda não existe",
+      "exercicios/e2/02-minha-localizacao.js ainda não existe",
   },
   () => {
     const { minhaLocalizacao, descrever, distancia, mover } = require(

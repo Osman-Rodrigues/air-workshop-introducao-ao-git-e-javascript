@@ -68,7 +68,7 @@ Falas-chave:
 - Funcionamento: interpretado com compilação JIT, tipagem dinâmica, uma thread com event loop.
 - Demonstração rápida no `node` (REPL): `let`/`const`, template literals, objeto `{ x: 3, y: 4 }`, função com valor padrão, arrow function.
 
-**E2 (12 min):** os alunos seguem [exercicios.md](exercicios.md#e2-branch-e-primeiros-snippets). Ao final, mostre a aba **Actions** e o **Summary** de um aluno.
+**E2 (12 min):** os alunos seguem [exercicios.md](exercicios.md#e2-branch-e-primeiros-arquivos-javascript). Ao final, mostre a aba **Actions** e o **Summary** de um aluno.
 
 ### 5. Módulos ESM e E3 (12 min)
 

@@ -16,7 +16,7 @@ A pasta [`exercicios/`](../exercicios) tem uma subpasta por exercício (`e2/`, `
 - `exe-N-*`: o **antes**, um esqueleto que roda mas ainda não faz tudo (os testes falham).
 - `sol-N-*`: o **depois**, a solução completa (os testes passam).
 
-O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e versione cada passo. Se quiser, implemente você mesmo a partir do `exe-*` em vez de copiar o `sol-*`.
+O foco é o Git: dentro da pasta do exercício, copie o arquivo para o nome final, execute, veja o resultado e versione cada passo. Se quiser, implemente você mesmo a partir do `exe-*` em vez de copiar o `sol-*`.
 
 ---
 
@@ -87,48 +87,48 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 
 ---
 
-## E2: branch e primeiros snippets
+## E2: branch e primeiros arquivos JavaScript
 
 **Objetivo:** criar uma branch, versionar o antes e o depois de cada arquivo em commits separados, comparar com `git diff` e enviar com `git push`.
 
-1. Crie a branch de trabalho:
+1. Crie a branch de trabalho e entre na pasta do exercício:
 
    ```bash
    git switch -c feature/saudacao-localizacao
+   cd exercicios/e2
    ```
 
-2. Crie a pasta `snippets/`, copie o esqueleto da saudação, execute e faça o commit:
+2. Copie o esqueleto da saudação para o nome final, execute e faça o commit:
 
    ```bash
-   mkdir snippets
-   cp exercicios/e2/exe-2-saudacao.js snippets/01-saudacao.js
-   node snippets/01-saudacao.js        # Olá! / Olá!  (ainda ignora o nome)
+   cp exe-2-saudacao.js 01-saudacao.js
+   node 01-saudacao.js                 # Olá! / Olá!  (ainda ignora o nome)
    git status
-   git add snippets/01-saudacao.js
+   git add 01-saudacao.js
    git commit -m "adiciona esqueleto da saudacao"
    ```
 
 3. Aplique a solução, veja a diferença e faça o commit:
 
    ```bash
-   cp exercicios/e2/sol-2-saudacao.js snippets/01-saudacao.js
+   cp sol-2-saudacao.js 01-saudacao.js
    git diff
-   node snippets/01-saudacao.js        # Olá, mundo! / Olá, Ana!
+   node 01-saudacao.js                 # Olá, mundo! / Olá, Ana!
    git commit -am "implementa saudacao com nome"
    ```
 
 4. Repita com a localização. O esqueleto calcula a distância como `0` e não move o ponto:
 
    ```bash
-   cp exercicios/e2/exe-2-minha-localizacao.js snippets/02-minha-localizacao.js
-   node snippets/02-minha-localizacao.js
+   cp exe-2-minha-localizacao.js 02-minha-localizacao.js
+   node 02-minha-localizacao.js
    npm test                            # falha: distancia e mover
-   git add snippets/02-minha-localizacao.js
+   git add 02-minha-localizacao.js
    git commit -m "adiciona esqueleto da localizacao"
 
-   cp exercicios/e2/sol-2-minha-localizacao.js snippets/02-minha-localizacao.js
+   cp sol-2-minha-localizacao.js 02-minha-localizacao.js
    git diff
-   node snippets/02-minha-localizacao.js   # distância 5, ponto movido para (4, 3)
+   node 02-minha-localizacao.js        # distância 5, ponto movido para (4, 3)
    npm test                            # passa
    git commit -am "implementa distancia e mover"
    ```
@@ -142,10 +142,10 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
    git push -u origin feature/saudacao-localizacao
    ```
 
-**Critério da Actions:** `push` em uma branch que não é a `main`, os dois arquivos existem e `tests/e2-commonjs.test.mjs` passa. Um push só com os esqueletos fica pendente.
+**Critério da Actions:** `push` em uma branch que não é a `main`, `exercicios/e2/01-saudacao.js` e `exercicios/e2/02-minha-localizacao.js` existem e `tests/e2-commonjs.test.mjs` passa. Um push só com os esqueletos fica pendente.
 
 **Se travar:**
-- `npm test` mostra testes `skipped`: confira os nomes dos arquivos dentro de `snippets/`.
+- `npm test` mostra testes `skipped`: confira os nomes dos arquivos dentro de `exercicios/e2/`.
 - `git commit -am` não pegou o arquivo: o `-a` só inclui arquivos já rastreados; arquivos novos precisam de `git add`.
 
 ---
@@ -154,35 +154,36 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 
 **Objetivo:** migrar de CommonJS (`require`/`module.exports`) para ES Modules (`import`/`export`), usando `git mv` para o Git registrar a renomeação.
 
-1. Renomeie os arquivos:
+1. Entre na pasta do E3 e traga os arquivos do E2, já com a extensão `.mjs`:
 
    ```bash
-   git mv snippets/01-saudacao.js snippets/saudacao.mjs
-   git mv snippets/02-minha-localizacao.js snippets/localizacao.mjs
-   git status
+   cd ../e3
+   git mv ../e2/01-saudacao.js saudacao.mjs
+   git mv ../e2/02-minha-localizacao.js localizacao.mjs
+   git status                          # renamed: ...
    ```
 
 2. Converta os dois arquivos para ESM copiando as soluções por cima, e veja o que mudou (`module.exports` vira `export`; o bloco `require.main` sai):
 
    ```bash
-   cp exercicios/e3/sol-3-saudacao.mjs snippets/saudacao.mjs
-   cp exercicios/e3/sol-3-localizacao.mjs snippets/localizacao.mjs
+   cp sol-3-saudacao.mjs saudacao.mjs
+   cp sol-3-localizacao.mjs localizacao.mjs
    git diff
    ```
 
 3. Copie o esqueleto do módulo que combina os dois e execute:
 
    ```bash
-   cp exercicios/e3/exe-3-saudacao-localizacao.mjs snippets/saudacao-localizacao.mjs
-   node snippets/saudacao-localizacao.mjs   # linha vazia: ainda não importa nada
-   npm test                                 # falha
+   cp exe-3-saudacao-localizacao.mjs saudacao-localizacao.mjs
+   node saudacao-localizacao.mjs       # linha vazia: ainda não importa nada
+   npm test                            # falha
    ```
 
-4. Aplique a solução, execute e veja a diferença:
+4. Aplique a solução e execute:
 
    ```bash
-   cp exercicios/e3/sol-3-saudacao-localizacao.mjs snippets/saudacao-localizacao.mjs
-   node snippets/saudacao-localizacao.mjs
+   cp sol-3-saudacao-localizacao.mjs saudacao-localizacao.mjs
+   node saudacao-localizacao.mjs
    ```
 
    Resultado esperado:
@@ -195,18 +196,17 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 
    ```bash
    npm test
-   git add snippets
-   git status                               # renamed: ... e new file: ...
-   git commit -m "migra snippets para esm"
+   git add .
+   git status                          # renamed: ... e new file: ...
+   git commit -m "migra exercicios para esm"
    git push
    ```
 
-**Critério da Actions:** os três arquivos `.mjs` existem, os `.js` antigos foram removidos e `tests/e3-esm.test.mjs` passa.
+**Critério da Actions:** `saudacao.mjs`, `localizacao.mjs` e `saudacao-localizacao.mjs` existem em `exercicios/e3/`, os `.js` do E2 foram removidos e `tests/e3-esm.test.mjs` passa.
 
 **Se travar:**
 - `SyntaxError: Cannot use import statement outside a module`: a extensão precisa ser `.mjs`.
-- `ERR_MODULE_NOT_FOUND`: no ESM o caminho do `import` precisa da extensão (`./saudacao.mjs`).
-- Rodou `node exercicios/e3/sol-3-saudacao-localizacao.mjs` e deu `ERR_MODULE_NOT_FOUND`: os imports usam os nomes finais; rode a cópia em `snippets/`.
+- `ERR_MODULE_NOT_FOUND`: no ESM o caminho do `import` precisa da extensão (`./saudacao.mjs`), e os arquivos `saudacao.mjs` e `localizacao.mjs` precisam estar na mesma pasta.
 
 ---
 
@@ -214,7 +214,7 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 
 **Objetivo:** simular um colega alterando a mesma linha que você e resolver o conflito.
 
-1. No GitHub, abra `snippets/saudacao.mjs` **na branch `feature/saudacao-localizacao`**, clique no lápis e troque `Olá` por `Oi`. Faça o commit pela web.
+1. No GitHub, abra `exercicios/e3/saudacao.mjs` **na branch `feature/saudacao-localizacao`**, clique no lápis e troque `Olá` por `Oi`. Faça o commit pela web.
 2. Localmente, **sem fazer pull antes**, troque `Olá` por `Bem-vindo` na mesma linha e faça o commit:
 
    ```bash
@@ -236,13 +236,13 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 
    ```bash
    npm test
-   git add snippets/saudacao.mjs
+   git add saudacao.mjs
    git commit
    git push
    git log --oneline --graph
    ```
 
-**Critério da Actions:** existe um commit de merge na branch e nenhum arquivo de `snippets/` tem marcadores de conflito.
+**Critério da Actions:** existe um commit de merge na branch e nenhum arquivo de `exercicios/` tem marcadores de conflito.
 
 **Se travar:**
 - `git pull` pede para escolher entre merge e rebase: rode `git config --global pull.rebase false` e repita.
@@ -268,7 +268,7 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
    ```bash
    git reset --soft main
    git status
-   git commit -m "feat(snippets): adiciona saudacao com localizacao"
+   git commit -m "feat(exercicios): adiciona saudacao com localizacao"
    ```
 
 4. Reaplique o commit sobre a `main` atualizada e envie:
@@ -283,7 +283,7 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 **Critério da Actions:** E4 concluído, nenhum commit de merge na branch, todos os commits no padrão `tipo(escopo): descrição` e a branch contém `origin/main`.
 
 **Se travar:**
-- Errou a mensagem: `git commit --amend -m "feat(snippets): ..."` e `git push --force-with-lease` de novo.
+- Errou a mensagem: `git commit --amend -m "feat(exercicios): ..."` e `git push --force-with-lease` de novo.
 - Perdeu algo: `git reflog` lista todas as posições anteriores do `HEAD`; `git reset --hard <hash>` volta para uma delas.
 - Atualizou a `main` local sem querer: use `git reset --soft $(git merge-base HEAD origin/main)` no passo 3.
 
@@ -295,7 +295,7 @@ O foco é o Git: copie os arquivos para `snippets/`, execute, veja o resultado e
 
 **Objetivo:** abrir um Pull Request, receber o review da dupla e fazer o merge.
 
-1. No GitHub, abra um Pull Request de `feature/saudacao-localizacao` para `main`, com título no padrão Conventional Commits (por exemplo, `feat(snippets): adiciona saudacao com localizacao`).
+1. No GitHub, abra um Pull Request de `feature/saudacao-localizacao` para `main`, com título no padrão Conventional Commits (por exemplo, `feat(exercicios): adiciona saudacao com localizacao`).
 2. Em **Reviewers**, peça o review da sua dupla.
 3. Faça o review do PR da sua dupla: aba **Files changed** > **Review changes** > **Approve**.
 4. Com o seu PR aprovado, clique em **Merge pull request**.

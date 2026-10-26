@@ -1,6 +1,12 @@
 // Atualiza a Issue de progresso do workshop a partir do evento do GitHub Actions.
 // Uso: node .github/scripts/progresso.mjs [--dry-run]
-import { appendFileSync, existsSync, readFileSync, readdirSync } from "node:fs";
+import {
+  appendFileSync,
+  existsSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+} from "node:fs";
 import { execFileSync } from "node:child_process";
 
 const DRY_RUN = process.argv.includes("--dry-run");
@@ -68,7 +74,7 @@ function testePassa(arquivo) {
 }
 
 const existe = (...arquivos) =>
-  arquivos.every((arquivo) => existsSync(`snippets/${arquivo}`));
+  arquivos.every((arquivo) => existsSync(`exercicios/${arquivo}`));
 
 async function api(metodo, caminho, corpo, { ignorarStatus = [] } = {}) {
   if (DRY_RUN) {
@@ -163,7 +169,7 @@ function verificarRepositorio(estadoAnterior) {
   const intervalo = `${base}..HEAD`;
 
   const e3 =
-    existe("saudacao.mjs", "localizacao.mjs", "saudacao-localizacao.mjs") &&
+    existe("e3/saudacao.mjs", "e3/localizacao.mjs", "e3/saudacao-localizacao.mjs") &&
     testePassa("tests/e3-esm.test.mjs");
   resultado.E3 = {
     ok: e3,
@@ -173,26 +179,28 @@ function verificarRepositorio(estadoAnterior) {
   };
 
   const e2Atual =
-    existe("01-saudacao.js", "02-minha-localizacao.js") &&
+    existe("e2/01-saudacao.js", "e2/02-minha-localizacao.js") &&
     testePassa("tests/e2-commonjs.test.mjs");
   // Depois do E3 os arquivos .js somem; o histórico prova que o E2 foi feito.
   const e2Historico =
     e3 &&
-    git("log", "--format=%H", "HEAD", "--", "snippets/01-saudacao.js") !== "";
+    git("log", "--format=%H", "HEAD", "--", "exercicios/e2/01-saudacao.js") !== "";
   const e2 = e2Atual || e2Historico;
   resultado.E2 = {
     ok: e2,
     detalhe: e2
-      ? `Branch \`${branch}\` com os snippets aprovados`
+      ? `Branch \`${branch}\` com os arquivos do E2 aprovados`
       : "Rode `npm test` e confira `tests/e2-commonjs.test.mjs`",
   };
 
   const merges = git("rev-list", "--merges", intervalo);
-  const comMarcador = (
-    existsSync("snippets") ? readdirSync("snippets") : []
-  ).filter((arquivo) =>
-    MARCADOR_CONFLITO.test(readFileSync(`snippets/${arquivo}`, "utf8")),
-  );
+  const comMarcador = readdirSync("exercicios", { recursive: true })
+    .map((arquivo) => `exercicios/${arquivo}`)
+    .filter(
+      (arquivo) =>
+        statSync(arquivo).isFile() &&
+        MARCADOR_CONFLITO.test(readFileSync(arquivo, "utf8")),
+    );
   const e4 = merges !== "" && comMarcador.length === 0;
   resultado.E4 = {
     ok: e4,

@@ -4,17 +4,20 @@ import { existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const caminho = (nome) =>
-  fileURLToPath(new URL(`../snippets/${nome}`, import.meta.url));
+const caminho = (pasta, nome) =>
+  fileURLToPath(new URL(`../exercicios/${pasta}/${nome}`, import.meta.url));
 
-const SAUDACAO = caminho("saudacao.mjs");
-const LOCALIZACAO = caminho("localizacao.mjs");
-const COMPOSTO = caminho("saudacao-localizacao.mjs");
-const ANTIGOS = [caminho("01-saudacao.js"), caminho("02-minha-localizacao.js")];
+const SAUDACAO = caminho("e3", "saudacao.mjs");
+const LOCALIZACAO = caminho("e3", "localizacao.mjs");
+const COMPOSTO = caminho("e3", "saudacao-localizacao.mjs");
+const ANTIGOS = [
+  caminho("e2", "01-saudacao.js"),
+  caminho("e2", "02-minha-localizacao.js"),
+];
 
 const pular = (arquivo) =>
   !existsSync(arquivo) &&
-  `snippets/${arquivo.split("/").pop()} ainda não existe`;
+  `exercicios/e3/${arquivo.split("/").pop()} ainda não existe`;
 
 test("E3: saudacao.mjs exporta saudar", { skip: pular(SAUDACAO) }, async () => {
   const { saudar } = await import(pathToFileURL(SAUDACAO));

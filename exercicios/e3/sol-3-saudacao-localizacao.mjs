@@ -1,4 +1,4 @@
-// Roda a partir de snippets/saudacao-localizacao.mjs: os imports usam os nomes finais dos arquivos.
+// Funciona como saudacao-localizacao.mjs, ao lado de saudacao.mjs e localizacao.mjs.
 import { saudar } from "./saudacao.mjs";
 import { minhaLocalizacao, descrever, distancia } from "./localizacao.mjs";
 

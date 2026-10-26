@@ -182,16 +182,16 @@ const dobro = (n) => n * 2;
 
 ---
 
-## E2: branch e primeiros snippets
+## E2: branch e primeiros arquivos JavaScript
 
 ```bash
 git switch -c feature/saudacao-localizacao
-mkdir snippets
-cp exercicios/e2/exe-2-saudacao.js snippets/01-saudacao.js   # antes
-node snippets/01-saudacao.js
-git add snippets/01-saudacao.js
+cd exercicios/e2
+cp exe-2-saudacao.js 01-saudacao.js   # antes
+node 01-saudacao.js
+git add 01-saudacao.js
 git commit -m "adiciona esqueleto da saudacao"
-cp exercicios/e2/sol-2-saudacao.js snippets/01-saudacao.js   # depois
+cp sol-2-saudacao.js 01-saudacao.js   # depois
 git diff
 git commit -am "implementa saudacao com nome"
 # o mesmo para 02-minha-localizacao.js, com npm test antes e depois
@@ -217,7 +217,8 @@ Confira a aba **Actions** > **Summary**.
 | carregamento síncrono | carregamento assíncrono, análise estática |
 
 ```bash
-git mv snippets/01-saudacao.js snippets/saudacao.mjs
+cd ../e3
+git mv ../e2/01-saudacao.js saudacao.mjs
 git status   # renamed: ...
 ```
 
@@ -286,7 +287,7 @@ Rede de segurança: `git reflog` lista todas as posições anteriores do `HEAD`.
 ```text
 tipo(escopo): descrição
 
-feat(snippets): adiciona saudacao com localizacao
+feat(exercicios): adiciona saudacao com localizacao
 fix(localizacao): corrige calculo da distancia
 docs: atualiza readme
 feat(api)!: remove endpoint antigo     ← mudança incompatível
@@ -302,7 +303,7 @@ Permite gerar **changelog** e **versão** (SemVer) automaticamente.
 ```bash
 git fetch
 git reset --soft main            # junta seus commits no staging
-git commit -m "feat(snippets): adiciona saudacao com localizacao"
+git commit -m "feat(exercicios): adiciona saudacao com localizacao"
 git rebase origin/main           # reaplica sobre a main atualizada
 npm test
 git push --force-with-lease

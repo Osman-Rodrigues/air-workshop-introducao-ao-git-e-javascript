@@ -16,6 +16,19 @@ title: Introdução ao Git (com JavaScript)
 
 ---
 
+## Oi, eu sou o Osman! 👋😁
+
+- Desenvolvedor Sr na AIR/Compass 💻
+- 6 anos de carreira em tech, 2 anos nessa casa 👣
+- Coisas que amo:
+  - clima friozim ❄️
+  - atividade física 🏋️
+  - boas comidas e boas conversas 🍔😋
+  - mundos de fantasia 🧙‍♂️
+- Linkedin: https://www.linkedin.com/in/osman-rodrigues/
+  
+---
+
 ## Objetivo de hoje 🎯 🤝
 
 Sair daqui com um **Pull Request aprovado** no seu próprio repositório.

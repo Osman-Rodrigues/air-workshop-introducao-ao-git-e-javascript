@@ -8,7 +8,7 @@ title: Introdução ao Git (com JavaScript)
 
 <!-- _class: lead -->
 
-# Introdução ao Git
+# Introdução ao Git 🧭 🌱
 
 ### com uma pitada de JavaScript
 
@@ -16,7 +16,7 @@ title: Introdução ao Git (com JavaScript)
 
 ---
 
-## Objetivo de hoje
+## Objetivo de hoje 🎯 🤝
 
 Sair daqui com um **Pull Request aprovado** no seu próprio repositório.
 
@@ -35,11 +35,11 @@ node -v         # 22 ou mais recente
 
 <!-- _class: lead -->
 
-# 1. História e funcionamento do Git
+# 1. História e funcionamento do Git 📜 ⚙️
 
 ---
 
-## Por que o Git surgiu?
+## Por que o Git surgiu? 💡 🐧
 
 - Até 2005 o kernel Linux era versionado no **BitKeeper**, proprietário e com licença gratuita.
 - Em abril de 2005 a licença foi revogada.
@@ -51,7 +51,7 @@ node -v         # 22 ou mais recente
 
 ---
 
-## Centralizado vs. distribuído
+## Centralizado vs. distribuído 🖥️ 🌐
 
 ```text
  Centralizado (CVS, SVN)            Distribuído (Git)
@@ -66,7 +66,7 @@ Com o Git você faz commit, consulta o histórico e cria branches **sem rede**.
 
 ---
 
-## Fotos, não diferenças
+## Fotos, não diferenças 📸 🧩
 
 Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
 
@@ -82,7 +82,7 @@ Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
 
 ---
 
-## As três áreas
+## As três áreas 📂 📦
 
 ```text
  diretório de trabalho ──git add──▶ staging ──git commit──▶ repositório (.git)
@@ -96,13 +96,13 @@ Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
 
 <!-- _class: lead -->
 
-# 2. Repositório local
+# 2. Repositório local 💻 🏠
 
 ### E1: `git init`, `status`, `add`, `commit`, `log`
 
 ---
 
-## E1 em 6 comandos
+## E1 em 6 comandos ⌨️ ✅
 
 ```bash
 mkdir ~/git-sandbox && cd ~/git-sandbox
@@ -120,17 +120,17 @@ O Git compara texto linha a linha. Para binários grandes existe o **Git LFS**.
 
 <!-- _class: lead -->
 
-# Pausa (5 min)
+# Pausa (5 min) ☕ ⏱️
 
 ---
 
 <!-- _class: lead -->
 
-# 3. Repositório remoto
+# 3. Repositório remoto ☁️ 🔗
 
 ---
 
-## Do template ao clone
+## Do template ao clone 🧰 📥
 
 1. **Use this template** > crie o repositório na sua conta.
 2. **Settings** > **Collaborators**: adicione a sua dupla.
@@ -149,11 +149,11 @@ A Issue **Progresso do workshop** se marca sozinha conforme você avança.
 
 <!-- _class: lead -->
 
-# 4. JavaScript em 10 minutos
+# 4. JavaScript em 10 minutos 🟨 ⏱️
 
 ---
 
-## De onde veio o JavaScript?
+## De onde veio o JavaScript? 📜 🌐
 
 - **1995**, Netscape: **Brendan Eich** cria a linguagem em cerca de 10 dias.
 - Mocha → LiveScript → **JavaScript** (marketing: o Java estava em alta; as linguagens não têm relação).
@@ -163,7 +163,7 @@ A Issue **Progresso do workshop** se marca sozinha conforme você avança.
 
 ---
 
-## Como o JavaScript funciona
+## Como o JavaScript funciona ⚙️ 🧠
 
 - Interpretado, com compilação **JIT** no motor (V8, SpiderMonkey...).
 - **Tipagem dinâmica**: o tipo é do valor, não da variável.
@@ -182,7 +182,7 @@ const dobro = (n) => n * 2;
 
 ---
 
-## E2: branch e primeiros arquivos JavaScript
+## E2: branch e primeiros arquivos JavaScript 🌿 ✍️
 
 ```bash
 git switch -c feature/saudacao-localizacao
@@ -204,11 +204,11 @@ Confira a aba **Actions** > **Summary**.
 
 <!-- _class: lead -->
 
-# 5. Módulos ESM
+# 5. Módulos ESM 📦 🔀
 
 ---
 
-## CommonJS vs. ES Modules
+## CommonJS vs. ES Modules ⚖️ 🧩
 
 | CommonJS (histórico do Node) | ESM (padrão da linguagem) |
 |---|---|
@@ -228,11 +228,11 @@ Saída esperada: `Olá, Ana! Você está em (3, 4), a 5 unidades da origem.`
 
 <!-- _class: lead -->
 
-# 6. Pull, push e conflito
+# 6. Pull, push e conflito 🔄 ⚔️
 
 ---
 
-## `git pull` = `git fetch` + `git merge`
+## `git pull` = `git fetch` + `git merge` ⬇️ 🔀
 
 ```text
 <<<<<<< HEAD
@@ -252,11 +252,11 @@ Conflito não é erro: é o Git pedindo uma decisão.
 
 <!-- _class: lead -->
 
-# 7. Rebase, reset e Conventional Commits
+# 7. Rebase, reset e Conventional Commits 🧹 📝
 
 ---
 
-## Merge vs. rebase
+## Merge vs. rebase 🔀 📏
 
 ```text
  merge:                          rebase:
@@ -270,7 +270,7 @@ Por isso `git push --force-with-lease`, e não `--force`.
 
 ---
 
-## `git reset`
+## `git reset` ↩️ 🛟
 
 | Modo | HEAD | Staging | Arquivos |
 |---|---|---|---|
@@ -282,7 +282,7 @@ Rede de segurança: `git reflog` lista todas as posições anteriores do `HEAD`.
 
 ---
 
-## Conventional Commits
+## Conventional Commits 🏷️ 📦
 
 ```text
 tipo(escopo): descrição
@@ -298,7 +298,7 @@ Permite gerar **changelog** e **versão** (SemVer) automaticamente.
 
 ---
 
-## E5 em 6 comandos
+## E5 em 6 comandos 🛠️ ✅
 
 ```bash
 git fetch
@@ -313,11 +313,11 @@ git push --force-with-lease
 
 <!-- _class: lead -->
 
-# 8. Pull Request, Gitflow e CI/CD
+# 8. Pull Request, Gitflow e CI/CD 🔍 🚀
 
 ---
 
-## E6: Pull Request
+## E6: Pull Request 🤝 ✅
 
 1. Abra o PR `feature/saudacao-localizacao` → `main`, com título Conventional.
 2. Peça o review da dupla.
@@ -328,7 +328,7 @@ O GitHub não deixa o autor aprovar o próprio PR.
 
 ---
 
-## Gitflow vs. trunk-based
+## Gitflow vs. trunk-based 🌳 🛣️
 
 ```text
  Gitflow
@@ -343,7 +343,7 @@ O GitHub não deixa o autor aprovar o próprio PR.
 
 ---
 
-## CI/CD: a Actions deste workshop
+## CI/CD: a Actions deste workshop ⚙️ 🤖
 
 ```yaml
 on: [push, pull_request, pull_request_review, workflow_dispatch]
@@ -364,11 +364,11 @@ Mesma ideia em outras forges: **Azure DevOps** (Azure Pipelines) e **GitLab** (G
 
 <!-- _class: lead -->
 
-# Encerramento
+# Encerramento 🎉 👋
 
 ---
 
-## O que vimos
+## O que vimos 📚 ✅
 
 `init` · `status` · `add` · `commit` · `log` · `diff` · `clone` · `switch` · `push` · `pull` · `merge` · `rebase` · `reset` · `reflog` · Pull Request
 

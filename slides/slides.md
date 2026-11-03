@@ -52,17 +52,18 @@ node -v         # 22 ou mais recente
 
 ---
 
-## Por que o Git surgiu? 💡 🐧
+<!-- _footer: 'Fontes: [README do Git](https://github.com/git/git/blob/master/README.md) · [About](https://git-scm.com/about) · [gitglossary](https://git-scm.com/docs/gitglossary) · [Pro Git, 1.2](https://git-scm.com/book/pt-br/v2/Primeiros-Passos-Uma-Breve-Hist%c3%b3ria-do-Git) · [Torvalds, 2005](https://marc.info/?l=git&m=112243466603239)' -->
 
-- Até 2005 o kernel Linux era versionado no **BitKeeper**, proprietário e com licença gratuita.
-- Em abril de 2005 a licença foi revogada.
-- **Linus Torvalds** escreveu o Git em poucos dias. Metas:
-  - velocidade
-  - integridade (tudo identificado por hash)
-  - trabalho **distribuído**
-- Em julho de 2005, **Junio Hamano** assumiu a manutenção, que mantém até hoje.
+## Git em 4 perguntas 💡 🐧
+
+- **O que é:** um sistema de controle de versão **distribuído**, rápido e escalável.
+- **Por que:** o kernel Linux perdeu o uso gratuito do **BitKeeper** e precisava de uma ferramenta rápida e distribuída.
+- **Como:** **Linus Torvalds** o desenhou como um sistema de arquivos em que tudo é identificado por um hash do conteúdo: velocidade e integridade.
+- **Quando:** abril de 2005. Em julho, **Junio Hamano** assumiu a manutenção.
 
 ---
+
+<!-- _footer: 'Fontes: [README do Git](https://github.com/git/git/blob/master/README.md) · [Pro Git, 1.1](https://git-scm.com/book/pt-br/v2/Primeiros-Passos-Sobre-Controle-de-Vers%c3%a3o) · [Pro Git, 1.3](https://git-scm.com/book/pt-br/v2/Primeiros-Passos-O-que-%c3%a9-Git%3F)' -->
 
 ## Centralizado vs. distribuído 🖥️ 🌐
 
@@ -79,6 +80,8 @@ Com o Git você faz commit, consulta o histórico e cria branches **sem rede**.
 
 ---
 
+<!-- _footer: 'Fontes: [gitdatamodel](https://git-scm.com/docs/gitdatamodel) · [gitglossary](https://git-scm.com/docs/gitglossary)' -->
+
 ## Fotos, não diferenças 📸 🧩
 
 Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
@@ -89,11 +92,13 @@ Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
                          main ←── HEAD
 ```
 
-- O identificador (`9f8e7d...`) é um hash SHA do conteúdo.
+- O identificador (`9f8e7d...`) é um hash criptográfico do conteúdo (SHA-1 por padrão).
 - **Branch** é só um ponteiro para um commit.
 - **HEAD** aponta para onde você está.
 
 ---
+
+<!-- _footer: 'Fontes: [gitdatamodel, THE INDEX](https://git-scm.com/docs/gitdatamodel#index) · [gitglossary](https://git-scm.com/docs/gitglossary)' -->
 
 ## As três áreas 📂 📦
 

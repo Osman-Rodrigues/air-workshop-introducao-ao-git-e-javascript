@@ -39,12 +39,16 @@ Se atrasar mais de 10 minutos até o bloco 6, transforme o E5 em demonstração 
 ### 1. História e funcionamento do Git (10 min)
 
 Falas-chave:
-- Até 2005 o kernel Linux usava o BitKeeper, proprietário, com licença gratuita. A licença foi revogada após uma disputa.
-- Linus Torvalds escreveu o Git em poucos dias (abril de 2005), com três metas: velocidade, integridade (hash de tudo) e trabalho distribuído. Em julho, Junio Hamano assumiu a manutenção.
+- **O que é:** um sistema de controle de versão distribuído, rápido e escalável.
+- **Por que:** em 2005 o kernel Linux perdeu o uso gratuito do BitKeeper, proprietário, e precisava de uma ferramenta rápida e distribuída.
+- **Como:** Linus Torvalds desenhou o Git como um sistema de arquivos em que tudo é identificado por um hash do conteúdo, o que garante velocidade e integridade.
+- **Quando:** abril de 2005. Em julho, Junio Hamano assumiu a manutenção.
 - Centralizado (CVS, SVN): um servidor guarda o histórico. Distribuído (Git): cada clone tem o histórico completo.
 - O Git guarda **fotos** (snapshots) do projeto, não diferenças. Cada commit aponta para uma foto e para o commit anterior.
 - Três áreas: diretório de trabalho, staging (`git add`) e repositório (`git commit`).
 - Branch e `HEAD` são só ponteiros para commits. Por isso criar branch é instantâneo.
+
+Fontes: [README do Git](https://github.com/git/git/blob/master/README.md), [About](https://git-scm.com/about), [gitglossary](https://git-scm.com/docs/gitglossary), [gitdatamodel](https://git-scm.com/docs/gitdatamodel), [Pro Git 1.1 a 1.3](https://git-scm.com/book/pt-br/v2/Primeiros-Passos-Uma-Breve-Hist%c3%b3ria-do-Git) e [e-mail de Linus Torvalds, jul/2005](https://marc.info/?l=git&m=112243466603239).
 
 ### 2. Repositório local (13 min)
 

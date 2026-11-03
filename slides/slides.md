@@ -167,25 +167,28 @@ A Issue **Progresso do workshop** se marca sozinha conforme você avança.
 
 <!-- _class: lead -->
 
-# 4. JavaScript em 10 minutos 🟨 ⏱️
+# 4. História e funcionamento do JavaScript 📜 ⚙️
 
 ---
 
-## De onde veio o JavaScript? 📜 🌐
+<!-- _footer: 'Fontes: [ECMA-262](https://ecma-international.org/publications-and-standards/standards/ecma-262/) · [ES2015](https://262.ecma-international.org/6.0/) · [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) · [Netscape, 1995](https://web.archive.org/web/20070916144913/http://wp.netscape.com/newsref/pr/newsrelease67.html) · [Wirfs-Brock e Eich, 2020](https://doi.org/10.1145/3386327) · [Node.js](https://github.com/nodejs/node/blob/main/doc/changelogs/CHANGELOG_ARCHIVE.md)' -->
 
-- **1995**, Netscape: **Brendan Eich** cria a linguagem em cerca de 10 dias.
-- Mocha → LiveScript → **JavaScript** (marketing: o Java estava em alta; as linguagens não têm relação).
-- **1997**: padronizado como **ECMAScript**.
-- **2009**: o **Node.js** leva o JS para fora do navegador.
-- **2015**: ES6 traz `let`/`const`, arrow functions, classes e **módulos**.
+## JavaScript em 4 perguntas 🟨 💡
+
+- **O que é:** uma linguagem leve, interpretada ou compilada na hora (JIT), padronizada como **ECMAScript**. Apesar do nome, não é Java.
+- **Por que:** a Netscape queria uma linguagem de script para as páginas, que "parecesse Java" e complementasse o Java no navegador.
+- **Como:** **Brendan Eich** criou o protótipo **Mocha** em 10 dias, em maio de 1995. Virou **LiveScript** e, em dezembro, **JavaScript**.
+- **Quando:** 1995. Marcos: **1997** ECMAScript · **2009** Node.js · **2015** ES2015, com `let`/`const`, arrow functions, classes e **módulos**.
 
 ---
+
+<!-- _footer: 'Fontes: [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) · [V8](https://v8.dev/) · [MDN, tipos](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Data_structures) · [MDN, modelo de execução](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model) · [Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs)' -->
 
 ## Como o JavaScript funciona ⚙️ 🧠
 
-- Interpretado, com compilação **JIT** no motor (V8, SpiderMonkey...).
+- Interpretado, com compilação **JIT** no motor (ex.: **V8**, do Chrome e do Node.js).
 - **Tipagem dinâmica**: o tipo é do valor, não da variável.
-- **Uma thread** com **event loop**: tarefas demoradas não bloqueiam.
+- **Uma thread** com **event loop**: E/S assíncrona não bloqueia, mas código longo bloqueia.
 
 ```js
 const minhaLocalizacao = { x: 3, y: 4 };

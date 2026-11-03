@@ -65,12 +65,14 @@ Fontes: [README do Git](https://github.com/git/git/blob/master/README.md), [Abou
 ### 4. JavaScript e E2 (22 min)
 
 **4.1 Introdução ao JavaScript (10 min). Falas-chave:**
-- Criado por Brendan Eich na Netscape, em 1995, em cerca de 10 dias, para dar interatividade às páginas.
-- Chamou-se Mocha, depois LiveScript e por fim JavaScript, aproveitando a fama do Java. As duas linguagens não têm relação.
-- Padronizado como ECMAScript (Ecma, 1997). O ES6/ES2015 trouxe `let`/`const`, arrow functions, classes e módulos.
-- Em 2009 o Node.js levou o JS para fora do navegador.
-- Funcionamento: interpretado com compilação JIT, tipagem dinâmica, uma thread com event loop.
+- **O que é:** uma linguagem leve, interpretada ou compilada na hora (JIT), padronizada como ECMAScript. Apesar do nome, não é Java.
+- **Por que:** a Netscape queria uma linguagem de script para as páginas, que "parecesse Java" e complementasse o Java no navegador.
+- **Como:** Brendan Eich criou o protótipo Mocha em 10 dias, em maio de 1995. Foi lançado como LiveScript nos betas do Navigator 2.0 e anunciado como JavaScript pela Netscape e pela Sun em dezembro de 1995.
+- **Quando:** 1995. Marcos: ECMAScript (Ecma, 1997), Node.js (2009) e ES2015, com `let`/`const`, arrow functions, classes e módulos.
+- Funcionamento: interpretado com compilação JIT (ex.: V8, do Chrome e do Node.js), tipagem dinâmica, uma thread com event loop. E/S assíncrona não bloqueia, mas código longo bloqueia.
 - Demonstração rápida no `node` (REPL): `let`/`const`, template literals, objeto `{ x: 3, y: 4 }`, função com valor padrão, arrow function.
+
+Fontes: [ECMA-262](https://ecma-international.org/publications-and-standards/standards/ecma-262/), [ES2015](https://262.ecma-international.org/6.0/), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [MDN, modelo de execução](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model), [V8](https://v8.dev/), [Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs), [anúncio Netscape e Sun, 1995](https://web.archive.org/web/20070916144913/http://wp.netscape.com/newsref/pr/newsrelease67.html) e [Wirfs-Brock e Eich, *JavaScript: The First 20 Years*, 2020](https://doi.org/10.1145/3386327).
 
 **E2 (12 min):** os alunos seguem [exercicios.md](exercicios.md#e2-branch-e-primeiros-arquivos-javascript). Ao final, mostre a aba **Actions** e o **Summary** de um aluno.
 

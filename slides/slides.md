@@ -16,7 +16,11 @@ title: Introdução ao Git (com JavaScript)
 
 ---
 
-## Oi, eu sou o Osman! 👋😁
+## Equipe de Instrução 🤓🤓
+
+---
+
+### Oi, eu sou o Osman! 👋😁
 
 - Desenvolvedor Sr na AIR/Compass 💻
 - 6 anos de carreira em tech, 2 anos nessa casa 👣
@@ -27,6 +31,21 @@ title: Introdução ao Git (com JavaScript)
   - mundos de fantasia 🧙‍♂️
 - Linkedin: https://www.linkedin.com/in/osman-rodrigues/
   
+---
+
+### Oi, eu sou o Tales! 👋😁
+
+- Desenvolvedor Mid na AIR/Compass 💻
+- 5 anos de carreira em tech, alguns meses nessa casa 👣
+- Trabalhei em instituições financeiras e em empresas do ramo logístico 👔
+- Coisas que amo:
+  - Música 🎶
+  - Livros 📚
+  - Filmes 🎥
+  - Harry Potter 🪄⚡
+  - Atividade física 🏋️
+Linkedin: https://br.linkedin.com/in/tales-dias-de-aguiar-274b56233
+
 ---
 
 ## Objetivo de hoje 🎯 🤝

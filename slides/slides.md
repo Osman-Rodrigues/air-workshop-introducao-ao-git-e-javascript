@@ -135,7 +135,7 @@ Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
 
 # 2. Repositório local 💻 🏠
 
-### E1: `git init`, `status`, `add`, `commit`, `log`
+### E1: `git config` `git init`, `status`, `add`, `commit`, `log`
 
 ---
 

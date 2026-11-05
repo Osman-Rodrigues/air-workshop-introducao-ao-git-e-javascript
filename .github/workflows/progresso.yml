@@ -13,6 +13,11 @@ permissions:
   issues: write
   pull-requests: read
 
+# Execuções em fila: duas simultâneas poderiam comentar sobre o mesmo estado.
+concurrency:
+  group: progresso-workshop
+  cancel-in-progress: false
+
 jobs:
   progresso:
     runs-on: ubuntu-latest

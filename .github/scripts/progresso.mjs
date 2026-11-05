@@ -20,6 +20,8 @@ const REPO = env.GITHUB_REPOSITORY;
 const PRINCIPAL = payload.repository?.default_branch ?? "main";
 
 const MARCADOR = "<!-- progresso-workshop -->";
+const MARCADOR_VALIDADOS = /^<!-- progresso: ([\w,]*) -->/;
+const BOT = "github-actions[bot]";
 const LABEL = "progresso";
 const CONVENTIONAL =
   /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([\w./-]+\))?!?: \S/;
@@ -28,7 +30,7 @@ const MARCADOR_CONFLITO = /^(<{7}|={7}|>{7})( |$)/m;
 const EXERCICIOS = [
   [
     "E1",
-    "Sandbox local: `git init`, `status`, `add`, `commit` e `log` com um arquivo binário (marque você mesmo)",
+    "Sandbox local: `git init`, `status`, `add`, `commit` e `log` com um arquivo binário (não é verificado)",
   ],
   [
     "E2",
@@ -45,6 +47,7 @@ const EXERCICIOS = [
   ],
   ["E6", "Pull Request aprovado pela dupla e mergeado na branch principal"],
 ];
+const VERIFICAVEIS = EXERCICIOS.map(([id]) => id).filter((id) => id !== "E1");
 
 function git(...args) {
   return execFileSync("git", args, { encoding: "utf8" }).trim();
@@ -73,8 +76,10 @@ function testePassa(arquivo) {
   }
 }
 
-const existe = (...arquivos) =>
-  arquivos.every((arquivo) => existsSync(`exercicios/${arquivo}`));
+const faltando = (...arquivos) =>
+  arquivos
+    .filter((arquivo) => !existsSync(`exercicios/${arquivo}`))
+    .map((arquivo) => `\`exercicios/${arquivo}\``);
 
 async function api(metodo, caminho, corpo, { ignorarStatus = [] } = {}) {
   if (DRY_RUN) {
@@ -102,28 +107,29 @@ async function api(metodo, caminho, corpo, { ignorarStatus = [] } = {}) {
   return resposta.status === 204 ? null : resposta.json();
 }
 
-function lerEstado(corpo = "") {
-  return Object.fromEntries(
-    EXERCICIOS.map(([id]) => [
-      id,
-      new RegExp(`^- \\[[xX]\\] \\*\\*${id}\\*\\*`, "m").test(corpo),
-    ]),
-  );
-}
-
-function montarCorpo(estado) {
+function montarCorpo() {
   return [
     MARCADOR,
     "## Progresso do workshop",
     "",
-    "Atualizado automaticamente pela Actions `Progresso do workshop`. O **E1** é local: marque-o você mesmo.",
+    "A cada `push` e Pull Request, a Actions `Progresso do workshop` comenta aqui o que foi validado e o próximo passo. O **E1** é local e não é verificado.",
     "",
-    ...EXERCICIOS.map(
-      ([id, descricao]) =>
-        `- [${estado[id] ? "x" : " "}] **${id}** — ${descricao}`,
-    ),
+    ...EXERCICIOS.map(([id, descricao]) => `- **${id}** — ${descricao}`),
     "",
   ].join("\n");
+}
+
+async function listarComentarios(numero) {
+  const todos = [];
+  for (let pagina = 1; ; pagina++) {
+    const lote =
+      (await api(
+        "GET",
+        `/issues/${numero}/comments?per_page=100&page=${pagina}`,
+      )) ?? [];
+    todos.push(...lote);
+    if (lote.length < 100) return todos;
+  }
 }
 
 async function buscarIssue() {
@@ -138,7 +144,12 @@ async function buscarIssue() {
 
 async function garantirIssue() {
   const existente = await buscarIssue();
-  if (existente) return existente;
+  if (existente) {
+    // Issues da versão com checkboxes passam para o corpo fixo.
+    if (!DRY_RUN && existente.body !== montarCorpo())
+      await api("PATCH", `/issues/${existente.number}`, { body: montarCorpo() });
+    return existente;
+  }
   await api(
     "POST",
     "/labels",
@@ -147,17 +158,16 @@ async function garantirIssue() {
   );
   return api("POST", "/issues", {
     title: "Progresso do workshop",
-    body: montarCorpo({}),
+    body: montarCorpo(),
     labels: [LABEL],
   });
 }
 
+// Eventos de PR verificam só o E6: os pushes na branch já cobrem E2 a E5.
 function branchDeTrabalho() {
-  const pr = payload.pull_request;
-  if (pr) return pr.head.ref;
-  if (evento === "push" && env.GITHUB_REF_TYPE !== "tag" && !payload.deleted)
-    return env.GITHUB_REF_NAME;
-  return null;
+  if (!["push", "workflow_dispatch"].includes(evento)) return null;
+  if (env.GITHUB_REF_TYPE === "tag" || payload.deleted) return null;
+  return env.GITHUB_REF_NAME;
 }
 
 function verificarRepositorio(estadoAnterior) {
@@ -168,19 +178,24 @@ function verificarRepositorio(estadoAnterior) {
   const base = `origin/${PRINCIPAL}`;
   const intervalo = `${base}..HEAD`;
 
-  const e3 =
-    existe("e3/saudacao.mjs", "e3/localizacao.mjs", "e3/saudacao-localizacao.mjs") &&
-    testePassa("tests/e3-esm.test.mjs");
+  const faltaE3 = faltando(
+    "e3/saudacao.mjs",
+    "e3/localizacao.mjs",
+    "e3/saudacao-localizacao.mjs",
+  );
+  const e3 = faltaE3.length === 0 && testePassa("tests/e3-esm.test.mjs");
   resultado.E3 = {
     ok: e3,
-    detalhe: e3
-      ? "Módulos ESM aprovados nos testes"
-      : "Rode `npm test` e confira `tests/e3-esm.test.mjs`",
+    detalhe: faltaE3.length
+      ? `Faltam ${faltaE3.join(", ")}`
+      : e3
+        ? "Módulos ESM aprovados nos testes"
+        : "`tests/e3-esm.test.mjs` falha: rode `npm test` (os `.js` do E2 precisam ter saído com `git mv`)",
   };
 
+  const faltaE2 = faltando("e2/01-saudacao.js", "e2/02-minha-localizacao.js");
   const e2Atual =
-    existe("e2/01-saudacao.js", "e2/02-minha-localizacao.js") &&
-    testePassa("tests/e2-commonjs.test.mjs");
+    faltaE2.length === 0 && testePassa("tests/e2-commonjs.test.mjs");
   // Depois do E3 os arquivos .js somem; o histórico prova que o E2 foi feito.
   const e2Historico =
     e3 &&
@@ -190,7 +205,9 @@ function verificarRepositorio(estadoAnterior) {
     ok: e2,
     detalhe: e2
       ? `Branch \`${branch}\` com os arquivos do E2 aprovados`
-      : "Rode `npm test` e confira `tests/e2-commonjs.test.mjs`",
+      : faltaE2.length
+        ? `Faltam ${faltaE2.join(", ")}`
+        : "`tests/e2-commonjs.test.mjs` falha: rode `npm test` e aplique as soluções `sol-2-*`",
   };
 
   const merges = git("rev-list", "--merges", intervalo);
@@ -293,13 +310,11 @@ function escreverResumo(estadoAnterior, estado, resultados) {
     "| Exercício | Status | Detalhe desta execução |",
     "|---|---|---|",
     ...EXERCICIOS.map(([id]) => {
+      if (id === "E1") return "| E1 | não verificado | Exercício local |";
       const detalhe =
         estadoAnterior[id] && !resultados[id]?.ok
           ? "Concluído em execução anterior"
-          : (resultados[id]?.detalhe ??
-            (id === "E1"
-              ? "Autodeclarado na Issue"
-              : "Não verificado neste evento"));
+          : (resultados[id]?.detalhe ?? "Não verificado neste evento");
       return `| ${id} | ${estado[id] ? "concluído" : "pendente"} | ${detalhe.replaceAll("|", "\\|")} |`;
     }),
     "",
@@ -308,42 +323,78 @@ function escreverResumo(estadoAnterior, estado, resultados) {
   if (DRY_RUN || !env.GITHUB_STEP_SUMMARY) console.log(linhas);
 }
 
+const linkExecucao = () =>
+  `[Ver esta execução](${env.GITHUB_SERVER_URL ?? "https://github.com"}/${REPO}/actions/runs/${env.GITHUB_RUN_ID})`;
+const semLink = (corpo = "") => corpo.replace(/\n\[Ver esta execução\]\(.*\)$/, "");
+
+function montarComentario(estadoAnterior, estado, resultados) {
+  const verificados = VERIFICAVEIS.filter((id) => resultados[id]);
+  if (verificados.length === 0) return null;
+  const validados = VERIFICAVEIS.filter((id) => estado[id]);
+  const novos = validados.filter((id) => !estadoAnterior[id]);
+  const candidatos = payload.pull_request ? ["E6"] : VERIFICAVEIS;
+  const proximo = candidatos.find((id) => !estado[id]);
+
+  const linhas = [
+    `<!-- progresso: ${validados.join(",")} -->`,
+    "### Progresso do workshop",
+    "",
+    ...VERIFICAVEIS.map(
+      (id) => `- **${id}**: ${estado[id] ? "concluído" : "pendente"}`,
+    ),
+    "",
+  ];
+  if (novos.length) linhas.push(`**Validado agora:** ${novos.join(", ")}`, "");
+  if (estado.E6) linhas.push("**Workshop concluído!** Pull Request aprovado e mergeado.");
+  else if (proximo)
+    linhas.push(
+      // Em push só o E6 fica sem resultado.
+      `**Próximo passo:** **${proximo}**: ${resultados[proximo]?.detalhe ?? "abra o Pull Request para a `main` e peça o review da dupla"}`,
+    );
+  linhas.push("", linkExecucao());
+  return linhas.join("\n");
+}
+
 const issue = await garantirIssue();
-const estadoAnterior = lerEstado(issue?.body);
+const comentariosBot = (issue ? await listarComentarios(issue.number) : []).filter(
+  (comentario) =>
+    comentario.user?.login === BOT && MARCADOR_VALIDADOS.test(comentario.body),
+);
+// O progresso é a união dos comentários da Actions: um rebase pode apagar a evidência de etapas anteriores.
+const anteriores = new Set(
+  comentariosBot.flatMap((comentario) =>
+    comentario.body.match(MARCADOR_VALIDADOS)[1].split(",").filter(Boolean),
+  ),
+);
+const estadoAnterior = Object.fromEntries(
+  VERIFICAVEIS.map((id) => [id, anteriores.has(id)]),
+);
 const resultados = {
   ...verificarRepositorio(estadoAnterior),
   ...(await verificarPullRequest()),
 };
-
-// Itens concluídos nunca são desmarcados: um rebase pode apagar a evidência de etapas anteriores.
 const estado = Object.fromEntries(
-  EXERCICIOS.map(([id]) => [
-    id,
-    estadoAnterior[id] || Boolean(resultados[id]?.ok),
-  ]),
+  VERIFICAVEIS.map((id) => [id, estadoAnterior[id] || Boolean(resultados[id]?.ok)]),
 );
 escreverResumo(estadoAnterior, estado, resultados);
 
-if (DRY_RUN) {
-  console.log(montarCorpo(estado));
-} else {
-  // Relê a Issue para não sobrescrever um E1 marcado durante esta execução.
-  const atual = (await buscarIssue()) ?? issue;
-  const estadoAtual = lerEstado(atual.body);
-  const final = Object.fromEntries(
-    EXERCICIOS.map(([id]) => [id, estado[id] || estadoAtual[id]]),
-  );
-  const corpo = montarCorpo(final);
-  if (corpo !== atual.body)
-    await api("PATCH", `/issues/${atual.number}`, { body: corpo });
+const comentario = montarComentario(estadoAnterior, estado, resultados);
+const ultimo = comentariosBot.at(-1);
+const repetido = comentario && ultimo && semLink(ultimo.body) === semLink(comentario);
 
-  if (final.E6 && !estadoAtual.E6) {
-    await api("POST", `/issues/${atual.number}/comments`, {
-      body: "Pull Request aprovado e mergeado. Workshop concluído!",
-    });
-    await api("PATCH", `/issues/${atual.number}`, {
+if (DRY_RUN) {
+  console.log(
+    !comentario
+      ? "Comentário: nenhum (nada verificado)"
+      : repetido
+        ? "Comentário: nenhum (igual ao anterior)"
+        : `Comentário: novo\n${semLink(comentario).replace(/^/gm, "> ")}`,
+  );
+} else if (comentario && !repetido) {
+  await api("POST", `/issues/${issue.number}/comments`, { body: comentario });
+  if (estado.E6 && !estadoAnterior.E6)
+    await api("PATCH", `/issues/${issue.number}`, {
       state: "closed",
       state_reason: "completed",
     });
-  }
 }

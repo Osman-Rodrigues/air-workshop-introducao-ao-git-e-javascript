@@ -139,19 +139,39 @@ Cada commit guarda uma **foto** do projeto e aponta para o commit anterior.
 
 ---
 
-## E1 em 6 comandos ⌨️ ✅
+## E1: identidade e sandbox ⌨️ 🧰
 
 ```bash
+git config --global user.name "Seu Nome"
+git config --global user.email "seu-email@exemplo.com"
+git config --global init.defaultBranch main
+git config --global pull.rebase false
+
 mkdir ~/git-sandbox && cd ~/git-sandbox
 git init
+git status
+```
+
+Rode `git status` depois de cada passo: ele mostra em que área está cada arquivo.
+
+---
+
+## E1: commit e `git diff` de um binário ⌨️ ✅
+
+```bash
 head -c 1024 /dev/urandom > arquivo.bin
 git add arquivo.bin
 git commit -m "adiciona arquivo binario"
+git log
+
+head -c 1024 /dev/urandom > arquivo.bin   # substitui o arquivo
+git diff                                  # Binary files ... differ
+git commit -am "substitui arquivo binario"
 git log --oneline
 ```
 
-Troque o arquivo e rode `git diff`: **Binary files differ**.
 O Git compara texto linha a linha. Para binários grandes existe o **Git LFS**.
+O E1 é local: a Actions não o verifica.
 
 ---
 
@@ -180,7 +200,7 @@ cd <nome-do-seu-repositorio>
 git remote -v   # origin = apelido do remoto
 ```
 
-A Issue **Progresso do workshop** se marca sozinha conforme você avança.
+A cada push e PR, a Actions comenta na Issue **Progresso do workshop** o que foi validado e o próximo passo.
 
 ---
 
@@ -222,23 +242,39 @@ const dobro = (n) => n * 2;
 
 ---
 
-## E2: branch e primeiros arquivos JavaScript 🌿 ✍️
+## E2: branch e saudação 🌿 ✍️
 
 ```bash
 git switch -c feature/saudacao-localizacao
 cd exercicios/e2
 cp exe-2-saudacao.js 01-saudacao.js   # antes
-node 01-saudacao.js
+node 01-saudacao.js                   # Olá! / Olá!
 git add 01-saudacao.js
 git commit -m "adiciona esqueleto da saudacao"
 cp sol-2-saudacao.js 01-saudacao.js   # depois
 git diff
+node 01-saudacao.js                   # Olá, mundo! / Olá, Ana!
 git commit -am "implementa saudacao com nome"
-# o mesmo para 02-minha-localizacao.js, com npm test antes e depois
+```
+
+---
+
+## E2: localização e `push` 🌿 🚀
+
+```bash
+cp exe-2-minha-localizacao.js 02-minha-localizacao.js
+npm test                              # falha: distancia e mover
+git add 02-minha-localizacao.js
+git commit -m "adiciona esqueleto da localizacao"
+cp sol-2-minha-localizacao.js 02-minha-localizacao.js
+git diff
+npm test                              # passa
+git commit -am "implementa distancia e mover"
+git log --oneline
 git push -u origin feature/saudacao-localizacao
 ```
 
-Confira a aba **Actions** > **Summary**.
+**A Actions confere:** `01-saudacao.js` e `02-minha-localizacao.js` existem e `tests/e2-commonjs.test.mjs` passa. Veja o comentário na Issue.
 
 ---
 
@@ -256,13 +292,40 @@ Confira a aba **Actions** > **Summary**.
 | `module.exports = { saudar }` | `export function saudar() {}` |
 | carregamento síncrono | carregamento assíncrono, análise estática |
 
+No ESM o `import` precisa da extensão do arquivo, e `.mjs` força o modo ESM.
+
+---
+
+## E3: `git mv` e conversão 📦 🔀
+
 ```bash
 cd ../e3
 git mv ../e2/01-saudacao.js saudacao.mjs
-git status   # renamed: ...
+git mv ../e2/02-minha-localizacao.js localizacao.mjs
+git status                          # renamed: ...
+cp sol-3-saudacao.mjs saudacao.mjs
+cp sol-3-localizacao.mjs localizacao.mjs
+git diff                            # module.exports vira export
+```
+
+---
+
+## E3: módulo combinado e `push` 📦 🚀
+
+```bash
+cp exe-3-saudacao-localizacao.mjs saudacao-localizacao.mjs
+node saudacao-localizacao.mjs       # linha vazia
+npm test                            # falha
+cp sol-3-saudacao-localizacao.mjs saudacao-localizacao.mjs
+node saudacao-localizacao.mjs
+npm test
+git add .
+git commit -m "migra exercicios para esm"
+git push
 ```
 
 Saída esperada: `Olá, Ana! Você está em (3, 4), a 5 unidades da origem.`
+**A Actions confere:** os 3 `.mjs` existem em `exercicios/e3/`, os `.js` do E2 saíram e `tests/e3-esm.test.mjs` passa.
 
 ---
 
@@ -287,6 +350,26 @@ Saída esperada: `Olá, Ana! Você está em (3, 4), a 5 unidades da origem.`
 3. `git add` + `git commit` + `git push`.
 
 Conflito não é erro: é o Git pedindo uma decisão.
+
+---
+
+## E4 passo a passo ⚔️ ✅
+
+1. No GitHub, **na branch `feature/saudacao-localizacao`**, edite `exercicios/e3/saudacao.mjs`: troque `Olá` por `Oi` e faça o commit pela web.
+2. Localmente, **sem `git pull`**, troque `Olá` por `Bem-vindo` na mesma linha:
+
+```bash
+git commit -am "muda saudacao"
+git push                     # rejeitado: o remoto tem um commit novo
+git pull                     # CONFLICT (content): resolva e apague os marcadores
+npm test
+git add saudacao.mjs
+git commit
+git push
+git log --oneline --graph
+```
+
+**A Actions confere:** há um commit de merge na branch e nenhum marcador de conflito.
 
 ---
 
@@ -338,7 +421,10 @@ Permite gerar **changelog** e **versão** (SemVer) automaticamente.
 
 ---
 
-## E5 em 6 comandos 🛠️ ✅
+## E5 passo a passo 🛠️ ✅
+
+1. No GitHub, **na branch `main`**, edite o `README.md` e faça o commit pela web.
+2. Localmente:
 
 ```bash
 git fetch
@@ -348,6 +434,8 @@ git rebase origin/main           # reaplica sobre a main atualizada
 npm test
 git push --force-with-lease
 ```
+
+**A Actions confere:** E4 concluído, nenhum merge, commits `tipo(escopo): descrição` e a branch contém `origin/main`.
 
 ---
 
@@ -365,6 +453,7 @@ git push --force-with-lease
 4. Com aprovação, **Merge pull request**.
 
 O GitHub não deixa o autor aprovar o próprio PR.
+**A Actions confere:** PR mergeado na `main` com aprovação de outra pessoa. A Issue é fechada.
 
 ---
 

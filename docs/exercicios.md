@@ -5,9 +5,9 @@ Os exercícios usam dois repositórios:
 - **E1:** um repositório local descartável (`git-sandbox`), sem relação com este.
 - **E2 a E6:** o seu repositório criado a partir deste template, depois do `git clone`.
 
-A Actions **Progresso do workshop** confere cada `push`, Pull Request e review e atualiza a Issue **Progresso do workshop** do seu repositório. O resumo de cada execução fica na aba **Actions**, em **Summary**.
+A Actions **Progresso do workshop** confere cada `push`, Pull Request e review e comenta na Issue **Progresso do workshop** do seu repositório o que foi validado e o próximo passo. O resumo de cada execução também fica na aba **Actions**, em **Summary**.
 
-> Item concluído na Issue nunca é desmarcado, mesmo que um passo seguinte reescreva o histórico.
+> Exercício validado continua valendo, mesmo que um passo seguinte reescreva o histórico. Se nada mudou desde o último comentário, a Actions não comenta de novo.
 
 ### Arquivos prontos para copiar
 
@@ -64,7 +64,7 @@ O foco é o Git: dentro da pasta do exercício, copie o arquivo para o nome fina
 
 **Repare:** o `git diff` mostra só `Binary files ... differ`. O Git compara texto linha a linha; para binários ele só sabe que mudou.
 
-**Critério:** autodeclarado. Marque o **E1** na Issue de progresso.
+**Critério:** não é verificado pela Actions, porque o sandbox é local.
 
 **Se travar:**
 - `Author identity unknown`: refaça o passo 1.
@@ -76,7 +76,7 @@ O foco é o Git: dentro da pasta do exercício, copie o arquivo para o nome fina
 
 1. Neste repositório, clique em **Use this template** > **Create a new repository**, na sua conta.
 2. No repositório criado: **Settings** > **Collaborators** > **Add people** e adicione a sua dupla. Aceite o convite que você receber da dupla.
-3. Aba **Actions** > **Progresso do workshop** > **Run workflow**. A Issue **Progresso do workshop** é criada.
+3. Aba **Actions** > **Progresso do workshop** > **Run workflow**. A Issue **Progresso do workshop** é criada. Depois, se quiser validar de novo sem fazer push, use **Run workflow** escolhendo a sua branch.
 4. Clone o seu repositório:
 
    ```bash

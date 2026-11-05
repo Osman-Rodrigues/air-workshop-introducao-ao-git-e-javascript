@@ -59,7 +59,7 @@ Fontes: [README do Git](https://github.com/git/git/blob/master/README.md), [Abou
 ### 3. Repositório remoto (8 min)
 
 - Demonstre **Use this template**, a adição da dupla como colaborador e o **Run workflow**.
-- Mostre a Issue criada: "ela vai se marcar sozinha conforme vocês avançam".
+- Mostre a Issue criada: "a cada push, a Actions comenta aqui o que foi validado e o próximo passo".
 - Todos fazem `git clone`. Explique que `origin` é só o apelido do remoto (`git remote -v`).
 
 ### 4. JavaScript e E2 (22 min)
@@ -74,7 +74,7 @@ Fontes: [README do Git](https://github.com/git/git/blob/master/README.md), [Abou
 
 Fontes: [ECMA-262](https://ecma-international.org/publications-and-standards/standards/ecma-262/), [ES2015](https://262.ecma-international.org/6.0/), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [MDN, modelo de execução](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model), [V8](https://v8.dev/), [Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs), [anúncio Netscape e Sun, 1995](https://web.archive.org/web/20070916144913/http://wp.netscape.com/newsref/pr/newsrelease67.html) e [Wirfs-Brock e Eich, *JavaScript: The First 20 Years*, 2020](https://doi.org/10.1145/3386327).
 
-**E2 (12 min):** os alunos seguem [exercicios.md](exercicios.md#e2-branch-e-primeiros-arquivos-javascript). Ao final, mostre a aba **Actions** e o **Summary** de um aluno.
+**E2 (12 min):** os alunos seguem [exercicios.md](exercicios.md#e2-branch-e-primeiros-arquivos-javascript). Ao final, mostre o comentário de progresso na Issue e o **Summary** de um aluno.
 
 ### 5. Módulos ESM e E3 (12 min)
 
@@ -118,12 +118,15 @@ Para manutenção, em `.github/scripts/`:
 
 ## Como a automação funciona
 
-`.github/workflows/progresso.yml` roda em `push`, `pull_request`, `pull_request_review` e `workflow_dispatch` e executa `.github/scripts/progresso.mjs`, que:
+`.github/workflows/progresso.yml` roda em `push`, `pull_request`, `pull_request_review` e `workflow_dispatch`, uma execução por vez (`concurrency`), e executa `.github/scripts/progresso.mjs`, que:
 
-1. Procura a Issue com o label `progresso` e a cria se não existir.
-2. Na branch de trabalho, verifica E2 a E5 (arquivos, `node --test`, merges, marcadores de conflito, mensagens de commit, ancestralidade com a `main`).
-3. No PR mergeado, consulta os reviews: E6 exige uma aprovação de alguém que não é o autor.
-4. Marca os itens novos na Issue (nunca desmarca), publica o resumo no **Summary** e fecha a Issue quando o E6 é concluído.
+1. Procura a Issue com o label `progresso` e a cria se não existir. O corpo da Issue é fixo, sem checkboxes.
+2. Lê os exercícios já validados no marcador oculto `<!-- progresso: E2,E3 -->` dos comentários feitos por `github-actions[bot]`. Comentários de pessoas são ignorados.
+3. Em `push` e `workflow_dispatch` na branch de trabalho, verifica E2 a E5 (arquivos, `node --test`, merges, marcadores de conflito, mensagens de commit, ancestralidade com a `main`).
+4. Em eventos de PR, verifica só o E6: no PR mergeado, consulta os reviews e exige uma aprovação de alguém que não é o autor.
+5. Comenta na Issue o estado de E2 a E6, o que foi validado agora e o próximo passo (só o primeiro pendente). Não comenta se o texto for igual ao do último comentário. Publica o resumo no **Summary** e fecha a Issue quando o E6 é concluído.
+
+O E1 não é verificado. Exercício validado continua valendo, porque o rebase do E5 apaga a evidência de E2 a E4.
 
 Para testar localmente sem chamar a API: `node .github/scripts/progresso.mjs --dry-run`, com `GITHUB_EVENT_NAME`, `GITHUB_EVENT_PATH` e, opcionalmente, `DRY_RUN_FIXTURES` (JSON com respostas simuladas por `"MÉTODO /caminho"`).
 
@@ -131,20 +134,23 @@ Para testar localmente sem chamar a API: `node .github/scripts/progresso.mjs --d
 
 - Peça a cada aluno o link do repositório (chat ou formulário) no bloco 3.
 - Se os repositórios forem públicos, a busca do GitHub reúne todas as Issues: `is:issue label:progresso "Progresso do workshop"`.
-- Em cada repositório: a Issue mostra o que foi concluído; a aba **Actions** mostra cada tentativa e o **Summary** explica o que faltou.
+- Em cada repositório: os comentários da Issue mostram o que foi concluído e o próximo passo; a aba **Actions** mostra cada tentativa e o **Summary** detalha todos os exercícios.
 - Sinais úteis: muitas falhas no E4 indicam pull feito antes do commit local; no E5, mensagens fora do padrão.
 
 ## Checklist de ensaio
 
 - [ ] Template publicado e marcado como template.
-- [ ] Repositório criado a partir do template; **Run workflow** cria a Issue.
-- [ ] E2: push na branch marca E2.
-- [ ] E3: push marca E3.
-- [ ] E4 negativo: commit com marcadores de conflito não marca E4.
-- [ ] E4: conflito resolvido marca E4.
-- [ ] E5 negativo: commit fora do padrão não marca E5.
-- [ ] E5: após o rebase, E4 continua marcado e E5 é marcado.
+- [ ] Repositório criado a partir do template; **Run workflow** cria a Issue, sem checkboxes.
+- [ ] Ensaio feito seguindo **apenas os slides**.
+- [ ] E2 negativo: push só com os esqueletos comenta o próximo passo do E2.
+- [ ] E2: push na branch comenta "Validado agora: E2".
+- [ ] Repetição: **Run workflow** na branch sem mudanças não gera comentário novo.
+- [ ] E3: push valida E3.
+- [ ] E4 negativo: commit com marcadores de conflito não valida E4 e o comentário aponta o arquivo.
+- [ ] E4: conflito resolvido valida E4.
+- [ ] E5 negativo: commit fora do padrão não valida E5.
+- [ ] E5: após o rebase, E4 continua concluído e E5 é validado.
 - [ ] E6 negativo: autor não consegue aprovar o próprio PR.
-- [ ] E6 negativo: merge sem aprovação não marca E6.
-- [ ] E6: merge com aprovação da dupla marca E6 e fecha a Issue.
+- [ ] E6 negativo: merge sem aprovação não valida E6.
+- [ ] E6: merge com aprovação da dupla valida E6 e fecha a Issue.
 - [ ] Ensaio cronometrado; tempos reais anotados na tabela de cronograma.

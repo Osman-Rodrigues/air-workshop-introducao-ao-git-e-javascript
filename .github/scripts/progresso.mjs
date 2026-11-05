@@ -340,7 +340,7 @@ function montarComentario(estadoAnterior, estado, resultados) {
     "### Progresso do workshop",
     "",
     ...VERIFICAVEIS.map(
-      (id) => `- **${id}**: ${estado[id] ? "concluído" : "pendente"}`,
+      (id) => `- **${id}**: ${estado[id] ? "✅ concluído" : "⏳ pendente"}`,
     ),
     "",
   ];

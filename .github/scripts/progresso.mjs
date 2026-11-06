@@ -30,7 +30,7 @@ const MARCADOR_CONFLITO = /^(<{7}|={7}|>{7})( |$)/m;
 const EXERCICIOS = [
   [
     "E1",
-    "Sandbox local: `git init`, `status`, `add`, `commit` e `log` com um arquivo binário (não é verificado)",
+    "Sandbox local: `git init`, `status`, `add`, `commit` e `log` com um arquivo `.txt` (não é verificado)",
   ],
   [
     "E2",

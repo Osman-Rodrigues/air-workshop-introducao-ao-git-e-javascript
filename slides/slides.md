@@ -156,21 +156,21 @@ Rode `git status` depois de cada passo: ele mostra em que área está cada arqui
 
 ---
 
-## E1: commit e `git diff` de um binário ⌨️ ✅
+## E1: commit e `git diff` de um arquivo de texto ⌨️ ✅
 
 ```bash
-head -c 1024 /dev/urandom > arquivo.bin
-git add arquivo.bin
-git commit -m "adiciona arquivo binario"
+echo "Olá, Git!" > arquivo.txt
+git add arquivo.txt
+git commit -m "adiciona arquivo de texto"
 git log
 
-head -c 1024 /dev/urandom > arquivo.bin   # substitui o arquivo
-git diff                                  # Binary files ... differ
-git commit -am "substitui arquivo binario"
+echo "Segunda linha" >> arquivo.txt   # acrescenta uma linha
+git diff                              # +Segunda linha
+git commit -am "atualiza arquivo de texto"
 git log --oneline
 ```
 
-O Git compara texto linha a linha. Para binários grandes existe o **Git LFS**.
+O Git compara texto linha a linha: o `git diff` mostra o que entrou (`+`) e o que saiu (`-`).
 O E1 é local: a Actions não o verifica.
 
 ---

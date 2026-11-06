@@ -11,7 +11,7 @@ Workshop prático de introdução ao Git, usando pequenos exemplos em JavaScript
 
 ## Como começar
 
-1. Faça o **E1** em um repositório local, fora deste: [docs/exercicios.md](docs/exercicios.md#e1-primeiros-comandos-em-um-repositório-local).
+1. Faça o **E1** em um repositório local, fora deste: [exercicios/exercicios.md](exercicios/exercicios.md#e1-primeiros-comandos-em-um-repositório-local).
 2. Clique em **Use this template** > **Create a new repository** e crie o seu repositório.
 3. No seu repositório, em **Settings** > **Collaborators**, adicione a sua dupla.
 4. Na aba **Actions**, abra **Progresso do workshop** e clique em **Run workflow**. A Issue **Progresso do workshop** é criada.
@@ -21,8 +21,7 @@ Workshop prático de introdução ao Git, usando pequenos exemplos em JavaScript
 
 | Caminho | Conteúdo |
 |---|---|
-| [docs/exercicios.md](docs/exercicios.md) | Exercícios E1 a E6 e bônus |
-| [docs/roteiro-instrutor.md](docs/roteiro-instrutor.md) | Roteiro do instrutor |
+| [exercicios/exercicios.md](exercicios/exercicios.md) | Exercícios E1 a E6 e bônus |
 | [slides/slides.md](slides/slides.md) | Slides (Marp) |
 | `exercicios/` | Uma pasta por exercício, com o esqueleto (`exe-*`) e a solução (`sol-*`); é nela que você cria e versiona os arquivos |
 | `tests/` | Testes usados por `npm test` e pela Actions |

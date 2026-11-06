@@ -6,7 +6,7 @@ Workshop prático de introdução ao Git, usando pequenos exemplos em JavaScript
 
 - Git 2.23 ou mais recente (`git --version`)
 - Node.js 22 LTS ou mais recente (`node -v`)
-- VS Code
+- VS code ou Linha de Comando com suporte a terminal Bash (Git Bash ou Linux nativo)
 - Conta no GitHub com autenticação HTTPS (token) ou SSH configurada
 
 ## Como começar

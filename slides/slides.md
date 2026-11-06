@@ -177,12 +177,6 @@ O E1 é local: a Actions não o verifica.
 
 <!-- _class: lead -->
 
-# Pausa (5 min) ☕ ⏱️
-
----
-
-<!-- _class: lead -->
-
 # 3. Repositório remoto ☁️ 🔗
 
 ---

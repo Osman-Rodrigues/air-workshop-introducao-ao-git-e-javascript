@@ -184,8 +184,8 @@ O E1 é local: a Actions não o verifica.
 ## Do template ao clone 🧰 📥
 
 1. **Use this template** > crie o repositório na sua conta.
-2. **Settings** > **Collaborators**: adicione a sua dupla.
-3. **Actions** > **Progresso do workshop** > **Run workflow**.
+2. **Settings** > **Collaborators**: adicione a sua dupla e aceite o convite que ela enviar.
+3. **Actions** > **Progresso do workshop** > **Run workflow**. Para validar de novo sem push, execute escolhendo a sua branch.
 4. Clone:
 
 ```bash
@@ -243,6 +243,7 @@ git switch -c feature/saudacao-localizacao
 cd exercicios/e2
 cp exe-2-saudacao.js 01-saudacao.js   # antes
 node 01-saudacao.js                   # Olá! / Olá!
+git status
 git add 01-saudacao.js
 git commit -m "adiciona esqueleto da saudacao"
 cp sol-2-saudacao.js 01-saudacao.js   # depois
@@ -257,11 +258,13 @@ git commit -am "implementa saudacao com nome"
 
 ```bash
 cp exe-2-minha-localizacao.js 02-minha-localizacao.js
+node 02-minha-localizacao.js
 npm test                              # falha: distancia e mover
 git add 02-minha-localizacao.js
 git commit -m "adiciona esqueleto da localizacao"
 cp sol-2-minha-localizacao.js 02-minha-localizacao.js
 git diff
+node 02-minha-localizacao.js         # distância 5, ponto movido para (4, 3)
 npm test                              # passa
 git commit -am "implementa distancia e mover"
 git log --oneline
@@ -420,9 +423,13 @@ Permite gerar **changelog** e **versão** (SemVer) automaticamente.
 1. No GitHub, **na branch `main`**, edite o `README.md` e faça o commit pela web.
 2. Localmente:
 
+Mantenha a `main` local no ponto em que a branch começou: o `reset --soft main` usa esse ponto como base. As novidades remotas entram no rebase.
+
 ```bash
 git fetch
+git log --oneline --graph --all
 git reset --soft main            # junta seus commits no staging
+git status
 git commit -m "feat(exercicios): adiciona saudacao com localizacao"
 git rebase origin/main           # reaplica sobre a main atualizada
 npm test
@@ -445,6 +452,13 @@ git push --force-with-lease
 2. Peça o review da dupla.
 3. Aprove o PR da dupla.
 4. Com aprovação, **Merge pull request**.
+5. Atualize o clone local:
+
+```bash
+git switch main
+git pull
+git log --oneline --graph
+```
 
 O GitHub não deixa o autor aprovar o próprio PR.
 **A Actions confere:** PR mergeado na `main` com aprovação de outra pessoa. A Issue é fechada.

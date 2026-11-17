@@ -1,6 +1,6 @@
-// TODO: receba um nome (padrão "mundo") e inclua-o na saudação usando template literal.
-function saudar() {
-  return "Olá!";
+// Recebe um nome (padrão "mundo") e inclua-o na saudação usando template literal.
+function saudar(nome = "mundo") {
+  return `Olá, ${nome}!`;
 }
 
 if (require.main === module) {
